@@ -344,3 +344,5 @@ Figma：<https://www.figma.com/design/1kwYenTSgxCmPG8c93iE8d/Poker-app?node-id=0
 - [✓] メールアドレス
 - [✓] パスワード
 
+### 13.ER図
+Figma:<https://www.figma.com/design/GYfTNdnNhuH1nHMga5F0ub/Poker-app-ER?node-id=0-1&p=f&t=MicwUlWtQMQtetCj-0>
