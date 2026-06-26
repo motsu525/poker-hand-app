@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  tournament: one
+  table_size: 1
+  button_seat: 1
+  blind_small: 1
+  blind_big: 1
+  ante: 1
+
+two:
+  user: two
+  tournament: two
+  table_size: 1
+  button_seat: 1
+  blind_small: 1
+  blind_big: 1
+  ante: 1

@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hand: one
+  name: MyString
+  seat_number: 1
+  stack: 1
+  is_hero: false
+
+two:
+  hand: two
+  name: MyString
+  seat_number: 1
+  stack: 1
+  is_hero: false

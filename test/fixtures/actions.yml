@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hand: one
+  player: one
+  street: MyString
+  action_type: MyString
+  amount: 1
+  action_order: 1
+  is_all_in: false
+
+two:
+  hand: two
+  player: two
+  street: MyString
+  action_type: MyString
+  amount: 1
+  action_order: 1
+  is_all_in: false

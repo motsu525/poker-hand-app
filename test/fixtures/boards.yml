@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hand: one
+  flop1: MyString
+  flop2: MyString
+  flop3: MyString
+  turn: MyString
+  river: MyString
+
+two:
+  hand: two
+  flop1: MyString
+  flop2: MyString
+  flop3: MyString
+  turn: MyString
+  river: MyString

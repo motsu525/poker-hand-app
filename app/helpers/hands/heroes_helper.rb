@@ -1,0 +1,2 @@
+module Hands::HeroesHelper
+end

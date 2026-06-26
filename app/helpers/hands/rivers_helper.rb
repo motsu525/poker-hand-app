@@ -1,0 +1,2 @@
+module Hands::RiversHelper
+end

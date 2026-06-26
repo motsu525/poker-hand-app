@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hand: one
+  player: one
+  card1: MyString
+  card2: MyString
+
+two:
+  hand: two
+  player: two
+  card1: MyString
+  card2: MyString
