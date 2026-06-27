@@ -1,2 +1,14 @@
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<div style="display: flex; flex-direction: column; align-items: center; padding: 80px 20px; text-align: center;">
+  <p style="font-size: 20px; color: #333; margin-bottom: 40px;">GTOへの連携をはじめよう。</p>
+
+  <%= link_to "ハンド入力へ", new_tournament_path, style: "display: block; background-color: #ff9800; color: white; padding: 18px 60px; border-radius: 4px; text-decoration: none; font-size: 20px; font-weight: bold;" %>
+
+  <div style="position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; padding: 12px; border-top: 1px solid #eee; background: white;">
+    <%= link_to new_tournament_path, style: "color: #333; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center;" do %>
+      ✏️<span>記録</span>
+    <% end %>
+    <%= link_to hands_path, style: "color: #333; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center;" do %>
+      📋<span>履歴</span>
+    <% end %>
+  </div>
+</div>

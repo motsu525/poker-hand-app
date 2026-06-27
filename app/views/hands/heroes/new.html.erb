@@ -1,2 +1,135 @@
-<h1>Hands::Heroes#new</h1>
-<p>Find me in app/views/hands/heroes/new.html.erb</p>
+<% content_for :page_title do %>
+  ハンド入力
+<% end %>
+
+<% content_for :back_button do %>
+  <%= link_to "javascript:history.back()", style: "text-decoration: none; color: #333; font-size: 20px;" do %>
+    ↩
+  <% end %>
+<% end %>
+
+<div style="padding: 16px; max-width: 480px; margin: 0 auto; padding-bottom: 80px;">
+
+  <%# ポジション選択 %>
+  <div style="margin-bottom: 16px;">
+    <div style="display: flex; gap: 6px; justify-content: center; margin-bottom: 6px;">
+      <% ["UTG", "UTG1", "UTG2", "LJ"].each do |pos| %>
+        <button type="button" id="pos_<%= pos %>"
+          onclick="selectPosition('<%= pos %>')"
+          style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; background: white; cursor: pointer; font-size: 13px;">
+          <%= pos %>
+        </button>
+      <% end %>
+    </div>
+    <div style="display: flex; gap: 6px; justify-content: center;">
+      <% ["HJ", "CO", "BTN", "SB", "BB"].each do |pos| %>
+        <button type="button" id="pos_<%= pos %>"
+          onclick="selectPosition('<%= pos %>')"
+          style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; background: white; cursor: pointer; font-size: 13px;">
+          <%= pos %>
+        </button>
+      <% end %>
+    </div>
+    <input type="hidden" id="selected_position" value="">
+  </div>
+
+  <%# 選択したカード表示 %>
+  <div style="text-align: center; margin-bottom: 12px;">
+    <p style="font-size: 13px; margin-bottom: 6px;">自分のハンドを入力</p>
+    <div style="display: flex; justify-content: center; gap: 8px;">
+      <div id="card1_display" style="width: 44px; height: 60px; border: 2px solid #ccc; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px; background: white;"></div>
+      <div id="card2_display" style="width: 44px; height: 60px; border: 2px solid #ccc; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px; background: white;"></div>
+    </div>
+  </div>
+
+  <%# カード選択グリッド %>
+  <div style="margin-bottom: 16px;">
+    <% suits = [["♠", "black"], ["♥", "red"], ["♦", "#00bcd4"], ["♣", "green"]] %>
+    <% ranks = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"] %>
+    <% suits.each do |suit, color| %>
+      <div style="display: flex; gap: 4px; margin-bottom: 4px; justify-content: center;">
+        <% ranks.each do |rank| %>
+          <% card = "#{rank}#{suit}" %>
+          <button type="button" id="card_<%= card %>"
+            onclick="selectCard('<%= card %>')"
+            style="flex: 1; height: 44px; border: 1px solid #ccc; border-radius: 2px; background: white; cursor: pointer; font-size: 22px; color: <%= color %>; padding: 0; min-width: 0;">
+            <%= rank %><%= suit %>
+          </button>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <%# 次へボタン %>
+  <%= form_with url: hand_hero_path(@hand), method: :post, id: "hero_form" do |f| %>
+    <%= hidden_field_tag :card1, nil, id: "card1_input" %>
+    <%= hidden_field_tag :card2, nil, id: "card2_input" %>
+    <%= hidden_field_tag :stack, nil, id: "stack_input" %>
+    <div style="text-align: center;">
+      <button type="button" onclick="submitHero()"
+        style="padding: 12px 60px; background-color: #ff9800; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;">
+        次へ
+      </button>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  let selectedCards = [];
+
+  function selectPosition(pos) {
+    document.querySelectorAll('[id^="pos_"]').forEach(btn => {
+      btn.style.background = 'white';
+      btn.style.color = 'black';
+    });
+    document.getElementById('pos_' + pos).style.background = '#1a73e8';
+    document.getElementById('pos_' + pos).style.color = 'white';
+    document.getElementById('selected_position').value = pos;
+  }
+
+  function selectCard(card) {
+    if (selectedCards.includes(card)) {
+      selectedCards = selectedCards.filter(c => c !== card);
+      document.getElementById('card_' + card).style.background = 'white';
+    } else if (selectedCards.length < 2) {
+      selectedCards.push(card);
+      document.getElementById('card_' + card).style.background = '#e0e0e0';
+    }
+    updateCardDisplay();
+  }
+
+  function updateCardDisplay() {
+    const colors = { '♠': 'black', '♥': 'red', '♦': '#00bcd4', '♣': 'green' };
+    const rankOrder = {'A':14,'K':13,'Q':12,'J':11,'T':10,'9':9,'8':8,'7':7,'6':6,'5':5,'4':4,'3':3,'2':2};
+
+    if (selectedCards.length === 2) {
+      selectedCards.sort((a, b) => rankOrder[b[0]] - rankOrder[a[0]]);
+    }
+
+    ['card1', 'card2'].forEach((id, i) => {
+      const display = document.getElementById(id + '_display');
+      const card = selectedCards[i];
+      if (card) {
+        const suit = card.slice(-1);
+        display.textContent = card;
+        display.style.color = colors[suit] || 'black';
+      } else {
+        display.textContent = '';
+      }
+    });
+  }
+
+  function submitHero() {
+    if (!document.getElementById('selected_position').value) {
+      alert('ポジションを選択してください');
+      return;
+    }
+    if (selectedCards.length < 2) {
+      alert('カードを2枚選択してください');
+      return;
+    }
+    document.getElementById('card1_input').value = selectedCards[0];
+    document.getElementById('card2_input').value = selectedCards[1];
+    document.getElementById('hero_form').submit();
+  }
+</script>

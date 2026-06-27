@@ -1,2 +1,54 @@
-<h1>Tournaments#new</h1>
-<p>Find me in app/views/tournaments/new.html.erb</p>
+<% content_for :page_title do %>
+  トーナメント情報
+<% end %>
+
+<% content_for :back_button do %>
+  <%= link_to dashboard_path, style: "text-decoration: none; color: #333; font-size: 20px;" do %>
+    ↩
+  <% end %>
+<% end %>
+
+<div style="padding: 20px; max-width: 400px; margin: 0 auto;">
+  <%= form_with model: @tournament, url: tournaments_path, id: "tournament_form" do |f| %>
+    <div style="margin-bottom: 24px;">
+      <p style="font-size: 16px; color: #333; text-align: center; margin-bottom: 12px;">アベレージスタック</p>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+        <% [10, 15, 20, 30, 40, 60, 80, 100].each do |val| %>
+          <button type="button" id="avg_<%= val %>"
+            onclick="selectStack('avg', <%= val %>)"
+            style="padding: 10px 14px; border: 1px solid #ccc; border-radius: 4px; background: white; cursor: pointer; font-size: 15px;">
+            <%= val %>bb
+          </button>
+        <% end %>
+      </div>
+      <%= hidden_field_tag :avg_stack, nil, id: "avg_stack" %>
+    </div>
+
+    <div style="text-align: center;">
+      <button type="button" onclick="submitForm()"
+        style="padding: 12px 60px; background-color: #ff9800; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;">
+        次へ
+      </button>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  function selectStack(type, val) {
+    document.querySelectorAll('[id^="' + type + '_"]').forEach(btn => {
+      btn.style.background = 'white';
+      btn.style.color = 'black';
+    });
+    document.getElementById(type + '_' + val).style.background = '#ff9800';
+    document.getElementById(type + '_' + val).style.color = 'white';
+    document.getElementById(type + '_stack').value = val;
+  }
+
+  function submitForm() {
+    if (!document.getElementById('avg_stack').value) {
+      alert('アベレージスタックを選択してください');
+      return;
+    }
+    document.getElementById('tournament_form').submit();
+  }
+</script>

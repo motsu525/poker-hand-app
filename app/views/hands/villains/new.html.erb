@@ -1,2 +1,68 @@
-<h1>Hands::Villains#new</h1>
-<p>Find me in app/views/hands/villains/new.html.erb</p>
+<% content_for :page_title do %>
+  ハンド入力
+<% end %>
+
+<% content_for :back_button do %>
+  <%= link_to "javascript:history.back()", style: "text-decoration: none; color: #333; font-size: 20px;" do %>
+    ↩
+  <% end %>
+<% end %>
+
+<div style="padding: 16px; max-width: 480px; margin: 0 auto; padding-bottom: 80px;">
+
+  <%# ポジション選択 %>
+  <div style="margin-bottom: 24px;">
+    <p style="font-size: 14px; text-align: center; margin-bottom: 12px;">相手のポジションを選択</p>
+    <div style="display: flex; gap: 6px; justify-content: center; margin-bottom: 6px;">
+      <% ["UTG", "UTG1", "UTG2", "LJ"].each do |pos| %>
+        <% disabled = pos == @hero_position %>
+        <button type="button" id="pos_<%= pos %>"
+          onclick="<%= disabled ? '' : "selectPosition('#{pos}')" %>"
+          style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; cursor: <%= disabled ? 'not-allowed' : 'pointer' %>; font-size: 13px; background: <%= disabled ? '#e0e0e0' : 'white' %>; color: <%= disabled ? '#aaa' : 'black' %>;">
+          <%= pos %>
+        </button>
+      <% end %>
+    </div>
+    <div style="display: flex; gap: 6px; justify-content: center;">
+      <% ["HJ", "CO", "BTN", "SB", "BB"].each do |pos| %>
+        <% disabled = pos == @hero_position %>
+        <button type="button" id="pos_<%= pos %>"
+          onclick="<%= disabled ? '' : "selectPosition('#{pos}')" %>"
+          style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; cursor: <%= disabled ? 'not-allowed' : 'pointer' %>; font-size: 13px; background: <%= disabled ? '#e0e0e0' : 'white' %>; color: <%= disabled ? '#aaa' : 'black' %>;">
+          <%= pos %>
+        </button>
+      <% end %>
+    </div>
+    <input type="hidden" id="selected_position" value="">
+  </div>
+
+  <%= form_with url: hand_villain_path(@hand), method: :post, id: "villain_form" do |f| %>
+    <%= hidden_field_tag :stack, nil, id: "stack_input" %>
+    <div style="text-align: center;">
+      <button type="button" onclick="submitVillain()"
+        style="padding: 12px 60px; background-color: #ff9800; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;">
+        次へ
+      </button>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  function selectPosition(pos) {
+    document.querySelectorAll('[id^="pos_"]').forEach(btn => {
+      btn.style.background = 'white';
+      btn.style.color = 'black';
+    });
+    document.getElementById('pos_' + pos).style.background = '#1a73e8';
+    document.getElementById('pos_' + pos).style.color = 'white';
+    document.getElementById('selected_position').value = pos;
+  }
+
+  function submitVillain() {
+    if (!document.getElementById('selected_position').value) {
+      alert('ポジションを選択してください');
+      return;
+    }
+    document.getElementById('villain_form').submit();
+  }
+</script>

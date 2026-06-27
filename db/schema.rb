@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_26_101515) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_27_042942) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,6 +77,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_26_101515) do
   end
 
   create_table "tournaments", force: :cascade do |t|
+    t.integer "avg_stack"
     t.datetime "created_at", null: false
     t.string "name"
     t.datetime "updated_at", null: false

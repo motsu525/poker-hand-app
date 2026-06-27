@@ -14,13 +14,19 @@
       <div style="background-color: #1a73e8; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; height: 60px;">
         <div style="display: flex; align-items: center; gap: 12px;">
           <%= image_tag "Logo.png", style: "height: 72px; transform: rotate(-15deg);" %>
-          <span style="color: white; font-weight: bold; font-size: 32px;">Road to GTO</span>
+          <span style="color: white; font-weight: bold; font-size: 18px;">Road to GTO</span>
         </div>
         <% if user_signed_in? %>
           <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, style: "color: white; text-decoration: none; font-size: 14px;" %>
         <% end %>
       </div>
-      <div style="background-color: #f0f0f0; padding: 24px 20px;">
+      <div style="background-color: #f0f0f0; padding: 12px 20px; display: flex; align-items: center; gap: 12px; min-height: 48px;">
+        <% if content_for?(:back_button) %>
+          <%= yield :back_button %>
+        <% end %>
+        <% if content_for?(:page_title) %>
+          <span style="font-size: 15px; font-weight: bold;"><%= yield :page_title %></span>
+        <% end %>
       </div>
     </header>
 
@@ -30,5 +36,9 @@
     <main>
       <%= yield %>
     </main>
+
+    <% if user_signed_in? %>
+      <%= render 'shared/footer' %>
+    <% end %>
   </body>
 </html>
