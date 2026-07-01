@@ -4,6 +4,7 @@ class Hands::VillainsController < ApplicationController
   def new
     @hand = Hand.find(params[:hand_id])
     @hero_position = session[:hero_position]
+    Rails.logger.debug "hero_position: #{@hero_position}"
   end
 
   def create

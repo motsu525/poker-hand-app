@@ -18,6 +18,7 @@
         <% disabled = pos == @hero_position %>
         <button type="button" id="pos_<%= pos %>"
           onclick="<%= disabled ? '' : "selectPosition('#{pos}')" %>"
+          class="<%= disabled ? 'disabled' : '' %>"
           style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; cursor: <%= disabled ? 'not-allowed' : 'pointer' %>; font-size: 13px; background: <%= disabled ? '#e0e0e0' : 'white' %>; color: <%= disabled ? '#aaa' : 'black' %>;">
           <%= pos %>
         </button>
@@ -28,6 +29,7 @@
         <% disabled = pos == @hero_position %>
         <button type="button" id="pos_<%= pos %>"
           onclick="<%= disabled ? '' : "selectPosition('#{pos}')" %>"
+          class="<%= disabled ? 'disabled' : '' %>"
           style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; cursor: <%= disabled ? 'not-allowed' : 'pointer' %>; font-size: 13px; background: <%= disabled ? '#e0e0e0' : 'white' %>; color: <%= disabled ? '#aaa' : 'black' %>;">
           <%= pos %>
         </button>
@@ -50,8 +52,10 @@
 <script>
   function selectPosition(pos) {
     document.querySelectorAll('[id^="pos_"]').forEach(btn => {
-      btn.style.background = 'white';
-      btn.style.color = 'black';
+      if (!btn.classList.contains('disabled')) {
+        btn.style.background = 'white';
+        btn.style.color = 'black';
+      }
     });
     document.getElementById('pos_' + pos).style.background = '#1a73e8';
     document.getElementById('pos_' + pos).style.color = 'white';
