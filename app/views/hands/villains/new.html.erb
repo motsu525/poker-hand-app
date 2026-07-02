@@ -35,11 +35,11 @@
         </button>
       <% end %>
     </div>
-    <input type="hidden" id="selected_position" value="">
   </div>
 
-  <%= form_with url: hand_villain_path(@hand), method: :post, id: "villain_form" do |f| %>
+  <%= form_with url: hand_villain_path(@hand), method: :post, id: "villain_form", data: { turbo: false } do |f| %>
     <%= hidden_field_tag :stack, nil, id: "stack_input" %>
+    <%= hidden_field_tag :selected_position, nil, id: "selected_position" %>
     <div style="text-align: center;">
       <button type="button" onclick="submitVillain()"
         style="padding: 12px 60px; background-color: #ff9800; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer;">

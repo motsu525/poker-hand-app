@@ -1,2 +1,50 @@
-<h1>Hands::Preflops#new</h1>
-<p>Find me in app/views/hands/preflops/new.html.erb</p>
+<% content_for :page_title do %>
+  プリフロップ
+<% end %>
+
+<% content_for :back_button do %>
+  <%= link_to "javascript:history.back()", style: "text-decoration: none; color: #333; font-size: 20px;" do %>
+    ↩
+  <% end %>
+<% end %>
+
+<div style="padding: 16px; max-width: 480px; margin: 0 auto; padding-bottom: 80px;">
+
+  <p style="font-size: 16px; font-weight: bold; margin-bottom: 24px;">
+    <%= @current_actor == :hero ? @hero.position : @villain.position %> アクション
+  </p>
+
+  <%= form_with url: hand_preflop_path(@hand), method: :post, id: "preflop_form", data: { turbo: false } do |f| %>
+    <%= hidden_field_tag :action_type, nil, id: "action_type_input" %>
+    <%= hidden_field_tag :amount, nil, id: "amount_input" %>
+    <%= hidden_field_tag :is_all_in, "false", id: "is_all_in_input" %>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; align-items: center;">
+      <button type="button" onclick="submitAction('fold')" id="btn_fold"
+        style="width: 200px; padding: 14px; background-color: #d0d0d0; color: white; border: none; border-radius: 4px; font-size: 18px; cursor: pointer;">
+        fold
+      </button>
+      <button type="button" onclick="submitAction('call')" id="btn_call"
+        style="width: 200px; padding: 14px; background-color: #d0d0d0; color: white; border: none; border-radius: 4px; font-size: 18px; cursor: pointer;">
+        call
+      </button>
+      <button type="button" onclick="submitAction('raise')" id="btn_raise"
+        style="width: 200px; padding: 14px; background-color: #d0d0d0; color: white; border: none; border-radius: 4px; font-size: 18px; cursor: pointer;">
+        raise
+      </button>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  function submitAction(type) {
+    document.querySelectorAll('[id^="btn_"]').forEach(btn => {
+      btn.style.backgroundColor = '#d0d0d0';
+    });
+    document.getElementById('btn_' + type).style.backgroundColor = '#ff9800';
+    document.getElementById('action_type_input').value = type;
+    setTimeout(() => {
+      document.getElementById('preflop_form').submit();
+    }, 200);
+  }
+</script>

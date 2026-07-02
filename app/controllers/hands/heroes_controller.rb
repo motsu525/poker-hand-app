@@ -13,6 +13,9 @@ class Hands::HeroesController < ApplicationController
   def create
     @hand = Hand.find(params[:hand_id])
 
+    # 既存のHeroPlayerを削除して重複を防ぐ
+    @hand.players.find_by(is_hero: true)&.destroy
+
     card1 = params[:card1]
     card2 = params[:card2]
     sorted = [card1, card2].sort_by { |c| -RANK_ORDER[c[0]] }
@@ -21,7 +24,8 @@ class Hands::HeroesController < ApplicationController
       name: current_user.name,
       is_hero: true,
       stack: params[:stack],
-      seat_number: 1
+      seat_number: 1,
+      position: params[:selected_position]
     )
     if @player.save
       HoleCard.create(
